@@ -142,10 +142,19 @@ char test_input()
     ch = get_ascii_char(keycode);
     return ch;
   }
+  sleep(1000000);
   return 0;
 }
 
-void build_map()
+
+//Creating a fun data type
+struct Entity {
+    char graphic;
+    int x_pos;
+    int y_pos;
+};
+
+void build_map(struct Entity entities[], int e_size)
 {
   char map[8][4] = {
     {'.', '.', '.', '.'},
@@ -157,6 +166,10 @@ void build_map()
     {'.', '.', '.', '.'},
     {'.', '.', '.', '.'}
   };
+  for(int e = 0; e <e_size; e++)
+  { 
+    map[entities[e].x_pos][entities[e].y_pos] = entities[e].graphic;
+  }
   for (int i = 0; i < 8; i++)
   {
     for (int j = 0; j < 4; j++)
@@ -171,12 +184,18 @@ void build_map()
 void kernel_entry()
 {
   init_vga(WHITE, RED);
-  //print_string("Type here, one key per second, ENTER to go to next line");
-  //print_new_line();
-  while (1)
+  struct Entity entities[1];
+  //Entity [0] is always player
+  entities[0] = (struct Entity){'P', 1, 1};
+  entities[1] = (struct Entity){'O', 4, 2};
+  char input = 'l'; 
+  while (input != 0)
   {
-    build_map();
-    test_input();
+    init_vga(WHITE, RED);
+    print_string("Use W,A,S,D to move");
+    print_new_line();
+    build_map(entities, 1);
+    input = test_input();
   }
 }
 
