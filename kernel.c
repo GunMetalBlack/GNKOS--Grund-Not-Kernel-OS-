@@ -145,14 +145,38 @@ char test_input()
   return 0;
 }
 
+void build_map()
+{
+  char map[8][4] = {
+    {'.', '.', '.', '.'},
+    {'.', '.', '.', '.'},
+    {'.', '.', '.', '.'},
+    {'.', '.', '.', '.'},
+    {'.', '.', '.', '.'},
+    {'.', '.', '.', '.'},
+    {'.', '.', '.', '.'},
+    {'.', '.', '.', '.'}
+  };
+  for (int i = 0; i < 8; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      print_char(map[i][j]);
+    }
+    print_new_line();
+  }
+  
+}
+
 void kernel_entry()
 {
-  init_vga(WHITE, BLUE);
-  print_string("Type here, one key per second, ENTER to go to next line");
-  print_new_line();
+  init_vga(WHITE, RED);
+  //print_string("Type here, one key per second, ENTER to go to next line");
+  //print_new_line();
   while (1)
   {
-    print_char(test_input());
+    build_map();
+    test_input();
   }
 }
 
