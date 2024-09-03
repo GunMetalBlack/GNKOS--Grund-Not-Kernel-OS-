@@ -142,7 +142,7 @@ char test_input()
     ch = get_ascii_char(keycode);
     return ch;
   }
-  sleep(1000000);
+  sleep(1000);
   return 0;
 }
 
@@ -178,7 +178,42 @@ void build_map(struct Entity entities[], int e_size)
     }
     print_new_line();
   }
-  
+}
+
+void player_movement(char input, struct Entity entites[])
+{
+  if(input == 'A')
+  {
+    entites[0].y_pos = entites[0].y_pos - 1;
+  }
+  if(input == 'D')
+  {
+    entites[0].y_pos = entites[0].y_pos + 1;
+  }
+  if(input == 'W')
+  {
+    entites[0].x_pos = entites[0].x_pos - 1;
+  }
+  if(input == 'S')
+  {
+     entites[0].x_pos = entites[0].x_pos + 1;
+  }
+  if(entites[0].x_pos > 3)
+  {
+    entites[0].x_pos = 3;
+  }
+  if(entites[0].x_pos < 0)
+  {
+    entites[0].x_pos = 0;
+  }
+  if(entites[0].y_pos < 0)
+  {
+    entites[0].y_pos = 0;
+  }
+  if(entites[0].y_pos > 7)
+  {
+    entites[0].y_pos = 7;
+  }
 }
 
 void kernel_entry()
@@ -189,13 +224,20 @@ void kernel_entry()
   entities[0] = (struct Entity){'P', 1, 1};
   entities[1] = (struct Entity){'O', 4, 2};
   char input = 'l'; 
+  char last_input = 0;
   while (input != 0)
   {
     init_vga(WHITE, RED);
-    print_string("Use W,A,S,D to move");
+    print_string("Use W,A,S,D to move, Player x:");
+    print_int(entities->x_pos);
     print_new_line();
     build_map(entities, 1);
     input = test_input();
+    if(input != last_input)
+    {
+      player_movement(input, entities);
+    }
+    last_input = input;
   }
 }
 
