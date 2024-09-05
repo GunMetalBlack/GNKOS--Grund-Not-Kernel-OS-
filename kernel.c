@@ -198,9 +198,9 @@ void player_movement(char input, struct Entity entites[])
   {
      entites[0].x_pos = entites[0].x_pos + 1;
   }
-  if(entites[0].x_pos > 3)
+  if(entites[0].x_pos > 7)
   {
-    entites[0].x_pos = 3;
+    entites[0].x_pos = 7;
   }
   if(entites[0].x_pos < 0)
   {
@@ -210,9 +210,9 @@ void player_movement(char input, struct Entity entites[])
   {
     entites[0].y_pos = 0;
   }
-  if(entites[0].y_pos > 7)
+  if(entites[0].y_pos > 3)
   {
-    entites[0].y_pos = 7;
+    entites[0].y_pos = 3;
   }
 }
 
@@ -227,11 +227,13 @@ void kernel_entry()
   char last_input = 0;
   while (input != 0)
   {
-    init_vga(WHITE, RED);
+    //Rebuilds the buffer every frame
+    init_vga(WHITE, BLACK);
     print_string("Use W,A,S,D to move, Player x:");
     print_int(entities->x_pos);
     print_new_line();
     build_map(entities, 1);
+    //! Big problem here folks can move unless another key is pressed
     input = test_input();
     if(input != last_input)
     {
